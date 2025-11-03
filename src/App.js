@@ -156,8 +156,10 @@ import StrudelEditor from './components/StrudelEditor';
 
 function App() {
     return (
-        <div>
-            <h2>Strudel Editor</h2>
+        <div className='bg-light'>
+            <div className='row justify-content-center'>
+                <h2 className='text-center'>Strudel Editor</h2>
+            </div>
             <StrudelEditor />
         </div>
     )
