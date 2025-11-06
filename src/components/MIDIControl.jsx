@@ -1,7 +1,7 @@
 import { ProcAndPlay, Proc } from "../utils/ProcessUtlis";
 import { useEffect, useState } from 'react';
 
-function MIDIControl({ volume, setVolume }) {
+function MIDIControl({ volume, setVolume, cpm, setCpm }) {
 
 
 
@@ -24,14 +24,21 @@ function MIDIControl({ volume, setVolume }) {
 
                 <div className="input-group mb-3">
                     <span className="input-group-text" id="cpmLabel">setCPM</span>
-                    <input type="text" className="form-control" placeholder="35" aria-label=""></input>
+                    <input type="number" className="form-control" aria-label="" value={cpm} id="cpmInput" min="1" max="999"
+                        onChange={(e) => {
+                            const newCpm = e.target.value;
+                            setCpm(newCpm);
+                            Proc(volume, newCpm);
+                        }}
+                    />
                 </div>
                 <div className="row">
                     <label htmlFor="volumeRange">Volume: {volume}</label>
                     <input type="range" className="form-range" id="volumeRange" min="0" max="1" step="0.01" value={volume}
                         onChange={(e) => {
-                            setVolume(e.target.value);
-                            Proc(volume);
+                            const newVolume = e.target.value;
+                            setVolume(newVolume);
+                            Proc(newVolume, cpm);
                         }}
                     />
                 </div>

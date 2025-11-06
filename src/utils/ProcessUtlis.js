@@ -1,11 +1,12 @@
 import { globalEditor } from '../components/StrudelEditor';
 // import fs from 'fs';
 
-export function Proc(volumeNum) {
+export function Proc(volumeNum, cpm) {
 
     let proc_text = document.getElementById('proc').value
     let proc_text_replaced = proc_text.replaceAll('<p1_Radio>', ProcessText);
     proc_text_replaced = proc_text_replaced.replaceAll('<volume_val>', volumeNum);
+    proc_text_replaced = proc_text_replaced.replaceAll('<cpm_val>', cpm);
     globalEditor.setCode(proc_text_replaced)
 }
 
@@ -21,10 +22,10 @@ export function ProcessText(match, ...args) {
     return replace
 }
 
-export function ProcAndPlay(volumeNum) {
+export function ProcAndPlay(volumeNum, cpm) {
     if (globalEditor != null && globalEditor.repl.state.started === true) {
         console.log(globalEditor)
-        Proc(volumeNum)
+        Proc(volumeNum, cpm)
         globalEditor.evaluate();
     }
 }

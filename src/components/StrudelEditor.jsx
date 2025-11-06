@@ -26,6 +26,7 @@ function StrudelEditor() {
     const hasRun = useRef(false);
 
     const [volume, setVolume] = useState(0.5);
+    const [cpm, setCpm] = useState(35);
     const [songText, setSongText] = useState(tune);
 
     useEffect(() => {
@@ -64,7 +65,7 @@ function StrudelEditor() {
 
             document.getElementById('proc').value = tune
             // SetupButtons()
-            Proc(volume)
+            Proc(volume, cpm)
         }
 
     }, []);
@@ -84,10 +85,10 @@ function StrudelEditor() {
             globalEditor.stop();
         }
     };
-    const onProc = () => Proc(volume);
+    const onProc = () => Proc(volume, cpm);
     const onProcAndPlay = () => {
         if (globalEditor != null) {
-            Proc(volume)
+            Proc(volume, cpm)
             globalEditor.evaluate()
         }
     };
@@ -122,6 +123,8 @@ function StrudelEditor() {
                             <MIDIControl
                                 volume={volume}
                                 setVolume={setVolume}
+                                cpm={cpm}
+                                setCpm={setCpm}
                             />
                         </div>
                     </div>
