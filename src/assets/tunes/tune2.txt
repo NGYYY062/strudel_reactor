@@ -1,5 +1,4 @@
-export const tune = `setcpm(35)
-// setcps(140/60/4)
+setcps(140/60/4)
 
 samples('github:algorave-dave/samples')
 samples('https://raw.githubusercontent.com/tidalcycles/Dirt-Samples/master/strudel.json')
@@ -48,7 +47,7 @@ note(pick(basslines, bass))
 .lpf(700)
 .room(0.4)
 .postgain(pick(gain_patterns, pattern))
-.log()
+
 
 main_arp: 
 note(pick(arpeggiator1, "<0 1 2 3>/2"))
@@ -58,7 +57,7 @@ note(pick(arpeggiator1, "<0 1 2 3>/2"))
 .room(0.6)
 .lpenv(3.3)
 .postgain(pick(gain_patterns, pattern))
-.log()
+
 
 drums:
 stack(
@@ -95,7 +94,7 @@ stack(
   .rarely(jux(rev)),
 )
 //Remixed and reproduced from Algorave Dave's code found here: https://www.youtube.com/watch?v=ZCcpWzhekEY
-all(x => x.gain(<volume_val>))
+// all(x => x.gain(mouseX.range(0,1)))
 // all(x => x.log())
 
-// @version 1.2`;
+// @version 1.2

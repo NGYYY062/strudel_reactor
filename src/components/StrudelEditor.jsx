@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { StrudelMirror } from '@strudel/codemirror';
 import { evalScope } from '@strudel/core';
 import { drawPianoroll } from '@strudel/draw';
@@ -12,6 +12,7 @@ import console_monkey_patch, { getD3Data } from '../console-monkey-patch';
 import { Proc } from "../utils/ProcessUtlis";
 import ControlPanel from "./ControlPanel";
 import MIDIControl from "./MIDIControl";
+import PreprocessTextarea from "./PreprocessTextarea";
 
 export let globalEditor = null;
 export let masterAudioGain;
@@ -23,6 +24,9 @@ const handleD3Data = (event) => {
 function StrudelEditor() {
 
     const hasRun = useRef(false);
+
+    const [volume, setVolume] = useState(0.5);
+    const [songText, setSongText] = useState(tune);
 
     useEffect(() => {
 
@@ -60,17 +64,30 @@ function StrudelEditor() {
 
             document.getElementById('proc').value = tune
             // SetupButtons()
-            Proc()
+            Proc(volume)
         }
 
     }, []);
 
-    const onPlay = () => globalEditor.evaluate();
-    const onStop = () => globalEditor.stop();
-    const onProc = () => Proc();
+    // useEffect(() => {
+    //     globalEditor.setCode(songText)
+
+    // }, [songText])
+
+    const onPlay = () => {
+        if (globalEditor != null) {
+            globalEditor.evaluate();
+        }
+    };
+    const onStop = () => {
+        if (globalEditor != null) {
+            globalEditor.stop();
+        }
+    };
+    const onProc = () => Proc(volume);
     const onProcAndPlay = () => {
         if (globalEditor != null) {
-            Proc()
+            Proc(volume)
             globalEditor.evaluate()
         }
     };
@@ -85,8 +102,9 @@ function StrudelEditor() {
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
-                                <label htmlFor="exampleFormControlTextarea1" className="form-label">Text to preprocess:</label>
-                                <textarea className="form-control" rows="15" id="proc" ></textarea>
+                                <PreprocessTextarea defaultValue={songText}
+                                    onChange={(e) => setSongText(e.target.value)}
+                                />
                             </div>
 
                             <ControlPanel
@@ -101,7 +119,10 @@ function StrudelEditor() {
                                 <div id="editor" />
                                 <div id="output" />
                             </div>
-                            <MIDIControl />
+                            <MIDIControl
+                                volume={volume}
+                                setVolume={setVolume}
+                            />
                         </div>
                     </div>
                     <canvas id="roll"></canvas>
