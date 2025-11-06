@@ -14,6 +14,7 @@ import ControlPanel from "./ControlPanel";
 import MIDIControl from "./MIDIControl";
 
 export let globalEditor = null;
+export let masterAudioGain;
 
 const handleD3Data = (event) => {
     console.log(event.detail);
@@ -56,6 +57,7 @@ function StrudelEditor() {
                 },
             });
 
+
             document.getElementById('proc').value = stranger_tune
             // SetupButtons()
             Proc()
@@ -73,6 +75,7 @@ function StrudelEditor() {
         }
     };
 
+    console.log("ready");
 
     return (
         <div>

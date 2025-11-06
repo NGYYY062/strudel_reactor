@@ -13,6 +13,6 @@
     - [ ] DJ Mode
     - [ ] Instrument Tuning Control
     - [ ] JSON Setting
-    - [ ]
+    - [ ] Global Volume Slider
 - [ ] Error handeling
 
