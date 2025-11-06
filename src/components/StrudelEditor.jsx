@@ -6,7 +6,7 @@ import { initAudioOnFirstClick } from '@strudel/webaudio';
 import { transpiler } from '@strudel/transpiler';
 import { getAudioContext, webaudioOutput, registerSynthSounds } from '@strudel/webaudio';
 import { registerSoundfonts } from '@strudel/soundfonts';
-import { stranger_tune } from '../tunes';
+import { tune } from '../tunes';
 import console_monkey_patch, { getD3Data } from '../console-monkey-patch';
 
 import { Proc } from "../utils/ProcessUtlis";
@@ -58,7 +58,7 @@ function StrudelEditor() {
             });
 
 
-            document.getElementById('proc').value = stranger_tune
+            document.getElementById('proc').value = tune
             // SetupButtons()
             Proc()
         }
@@ -78,34 +78,36 @@ function StrudelEditor() {
     console.log("ready");
 
     return (
-        <div>
-            <main>
+        <>
+            <div>
+                <main>
 
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
-                            <label htmlFor="exampleFormControlTextarea1" className="form-label">Text to preprocess:</label>
-                            <textarea className="form-control" rows="15" id="proc" ></textarea>
-                        </div>
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
+                                <label htmlFor="exampleFormControlTextarea1" className="form-label">Text to preprocess:</label>
+                                <textarea className="form-control" rows="15" id="proc" ></textarea>
+                            </div>
 
-                        <ControlPanel
-                            onPlay={onPlay}
-                            onStop={onStop}
-                            onProc={onProc}
-                            onProcAndPlay={onProcAndPlay}
-                        />
-                    </div>
-                    <div className="row">
-                        <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
-                            <div id="editor" />
-                            <div id="output" />
+                            <ControlPanel
+                                onPlay={onPlay}
+                                onStop={onStop}
+                                onProc={onProc}
+                                onProcAndPlay={onProcAndPlay}
+                            />
                         </div>
-                        <MIDIControl />
+                        <div className="row">
+                            <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
+                                <div id="editor" />
+                                <div id="output" />
+                            </div>
+                            <MIDIControl />
+                        </div>
                     </div>
-                </div>
-                <canvas id="roll"></canvas>
-            </main >
-        </div >
+                    <canvas id="roll"></canvas>
+                </main >
+            </div >
+        </>
     );
 
 

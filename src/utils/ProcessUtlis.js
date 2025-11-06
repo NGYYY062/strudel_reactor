@@ -25,3 +25,24 @@ export function ProcAndPlay() {
         globalEditor.evaluate();
     }
 }
+
+export function ReadTuneFromFile() {
+
+}
+
+export function SaveTune() {
+    let proc_text = document.getElementById('proc').value;
+
+}
+
+export function DownloadTune() {
+    let proc_text = document.getElementById('proc').value;
+    let blob = new Blob([proc_text], { type: "text/plain" });
+    let url = URL.createObjectURL(blob);
+    let anele = document.createElement("a");
+
+    anele.setAttribute("download", "MyTune");
+    anele.href = url;
+    anele.click();
+    console.log(blob);
+}

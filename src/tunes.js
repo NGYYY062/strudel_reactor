@@ -1,4 +1,4 @@
-export const stranger_tune = `setcps(140/60/4)
+export const tune = `setcps(140/60/4)
 
 samples('github:algorave-dave/samples')
 samples('https://raw.githubusercontent.com/tidalcycles/Dirt-Samples/master/strudel.json')
@@ -39,7 +39,7 @@ const arpeggiator2 = [
 const pattern = 0
 const bass = 0
 
-bassline:
+<p1_Radio>bassline:
 note(pick(basslines, bass))
 .sound("supersaw")
 .postgain(2)
