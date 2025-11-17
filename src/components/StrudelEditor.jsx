@@ -30,23 +30,27 @@ function StrudelEditor() {
     const [songText, setSongText] = useState(tune);
     const [state, setState] = useState("stop");
 
-
+    // Play button logic
     const onPlay = () => {
         let outputText = Preprocess({ inputText: songText, volume: volume });
         globalEditor.setCode(outputText);
         globalEditor.evaluate();
     };
 
+    // stop button logic
     const onStop = () => {
         if (globalEditor != null) {
             globalEditor.stop();
         }
     };
+
+    // Preprocess button logic
     const onProc = () => {
         let outputText = Preprocess({ inputText: songText, volume: volume });
         globalEditor.setCode(outputText);
     };
 
+    // TODO: Modify
     const onProcAndPlay = () => {
         if (globalEditor != null) {
             // Proc(volume, cpm)
