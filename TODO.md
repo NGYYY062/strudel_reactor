@@ -14,7 +14,7 @@
     - [ ] Instrument Tuning Control
     - [ ] JSON Setting
     - [x] Global Volume Slider
-    - [ ] Tunes file upload/download
+    - [x] Tunes file upload/download
     - [ ] D3 Graph
 - [ ] Error handeling
 
