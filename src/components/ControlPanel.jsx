@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { webaudioOutput } from '@strudel/webaudio';
 import { globalEditor } from './StrudelEditor';
-import { DownloadTune, SaveTune } from '../utils/ProcessUtlis';
+import { DownloadTune, convertToPlain } from '../utils/ProcessUtlis';
 
 import PlayBtnImg from '../assets/images/play-button.png';
 import PreprocessBtnImg from '../assets/images/replay.png';
@@ -10,44 +10,40 @@ import DownloadBtnImg from '../assets/images/downloads.png';
 import UploadBtnImg from '../assets/images/upload.png';
 import { upload } from '@testing-library/user-event/dist/upload';
 
-function ControlPanel({ onPlay, onStop, onProc, onProcAndPlay, state, setState }) {
+function ControlPanel({ onPlay, onStop, onProc, onProcAndPlay, state, setState, setSongText }) {
 
 
-    // useEffect(() => {
-    //     const volumeRange = document.getElementById('volumeRange');
-    //     if (volumeRange) {
-    //         volumeRange.addEventListener('input', (e) => {
-    //             setVolume(e.target.value);
-    //         });
-    //     }
-    // }, []);
+    const fileInputRef = useRef(null);
 
-    // useEffect(() => {
-    //     const volumeValue = volume / 100;
-    //     // if (globalEditor?.defaultOutput?.gain?.gain) {
-    //     //     globalEditor.defaultOutput.gain.gain.value = -100;
-    //     //     console.log(globalEditor.defaultOutput.gain.gain.value);
-    //     // }
-    //     try {
-    //         const mediaVolume = volumeValue;
-    //         const els = document.querySelectorAll('audio, video');
-    //         els.forEach(el => {
-    //             try {
-    //                 el.volume = mediaVolume;
+    // trigger file input reference on upload button click
+    const handleUploadClick = () => {
+        fileInputRef.current?.click();
+    };
 
-    //                 if (el.muted) el.muted = false;
-    //             } catch (e) {
-    //                 console.log(e);
-    //             }
-    //         });
-    //     } catch (e) {
-    //         console.log(e);
-    //     }
-    // }, [volume])
+    const handleFileUpload = (e) => {
+        const file = e.target.files?.[0]; // select first file
+        if (!file) return;
 
-    // console.log("Control ready");
-    // console.log(volume);
-    // console.log(webaudioOutput, webaudioOutput?.gain, webaudioOutput?.gain?.gain);
+        const reader = new FileReader();
+
+        // onload set song text
+        reader.onload = (ev) => {
+            let code = ev.target?.result;
+
+
+            if (file.name.endsWith('.rtf')) {
+                code = convertToPlain(code);
+            }
+
+            setSongText(code);
+
+        }
+
+        reader.onerror = () => alert('Error reading selected file');
+        reader.readAsText(file);
+        console.log("File uploaded")
+    }
+
 
     return (
         <>
@@ -97,7 +93,8 @@ function ControlPanel({ onPlay, onStop, onProc, onProcAndPlay, state, setState }
 
                 <div className='row'>
                     <div className='col-md-6 d-flex justify-content-center'>
-                        <button id="upload" className='btn btn-outline-warning' style={{ width: 'clamp(100px, 30vw, 160px)', height: 'clamp(100px, 30vw, 160px)' }}>
+                        <input ref={fileInputRef} type="file" accept='.txt,.rtf' style={{ display: 'none' }} onChange={handleFileUpload} />
+                        <button id="upload" className='btn btn-outline-warning' style={{ width: 'clamp(100px, 30vw, 160px)', height: 'clamp(100px, 30vw, 160px)' }} onClick={handleUploadClick}>
                             <img src={UploadBtnImg} style={{ width: '100%', height: '100%', display: 'block', objectFit: 'contain' }} />
                         </button>
                     </div>

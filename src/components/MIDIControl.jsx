@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 
 function MIDIControl({ volume, setVolume, onVolumeChange }) {
+    // tempVolume variable for volume display
     const [tempVolume, setTempVolume] = useState(volume);
 
     useEffect(() => {

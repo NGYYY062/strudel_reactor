@@ -33,6 +33,20 @@ export function Preprocess({ inputText, volume }) {
     return matches3;
 }
 
+export function convertToPlain(rtf) {
+    rtf = rtf
+        .replace(/^[\s\S]*?\\pard/, '\\pard')
+        .replace(/\\[a-zA-Z]+\d*/g, '')
+        .replace(/\\[^a-zA-Z0-9{}]/g, "\n") // replace all the \ at the end of the lines
+        .replace(/\\/g, "") // remove all backslashes
+        .replace(/\}\s*$/, "")
+        .trim();
+
+    return rtf;
+}
+
+
+
 // TODO: Get rid of Proc - unused
 export function Proc(volumeNum, cpm) {
 
@@ -105,3 +119,4 @@ export function DownloadTune() {
     anele.click();
     console.log(blob);
 }
+

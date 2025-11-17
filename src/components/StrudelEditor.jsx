@@ -58,12 +58,6 @@ function StrudelEditor() {
         }
     };
 
-    useEffect(() => {
-        if (state === "play") {
-            onPlay()
-        }
-        console.log(`Volume changed to ${volume}`);
-    }, [volume]);
 
     useEffect(() => {
 
@@ -107,6 +101,18 @@ function StrudelEditor() {
 
     }, []);
 
+    useEffect(() => {
+        if (state === "play") {
+            onPlay()
+        }
+        console.log(`Volume changed to ${volume}`);
+    }, [volume]);
+
+    useEffect(() => {
+        document.getElementById('proc').value = songText;
+        onProc();
+    }, [songText])
+
     return (
         <>
             <div>
@@ -128,6 +134,7 @@ function StrudelEditor() {
                                 state={state}
                                 setState={setState}
                                 onVolumeChange={(e) => setVolume(e.target.value)}
+                                setSongText={setSongText}
                             />
                         </div>
                         <div className="row">
