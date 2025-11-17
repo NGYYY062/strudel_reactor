@@ -9,7 +9,7 @@ import { registerSoundfonts } from '@strudel/soundfonts';
 import { tune } from '../tunes';
 import console_monkey_patch, { getD3Data } from '../console-monkey-patch';
 
-import { Proc } from "../utils/ProcessUtlis";
+import { Proc, Preprocess } from "../utils/ProcessUtlis";
 import ControlPanel from "./ControlPanel";
 import MIDIControl from "./MIDIControl";
 import PreprocessTextarea from "./PreprocessTextarea";
@@ -25,9 +25,41 @@ function StrudelEditor() {
 
     const hasRun = useRef(false);
 
-    const [volume, setVolume] = useState(0.5);
-    const [cpm, setCpm] = useState(35);
+    const [volume, setVolume] = useState(1);
+    // const [cpm, setCpm] = useState(35);
     const [songText, setSongText] = useState(tune);
+    const [state, setState] = useState("stop");
+
+
+    const onPlay = () => {
+        let outputText = Preprocess({ inputText: songText, volume: volume });
+        globalEditor.setCode(outputText);
+        globalEditor.evaluate();
+    };
+
+    const onStop = () => {
+        if (globalEditor != null) {
+            globalEditor.stop();
+        }
+    };
+    const onProc = () => {
+        let outputText = Preprocess({ inputText: songText, volume: volume });
+        globalEditor.setCode(outputText);
+    };
+
+    const onProcAndPlay = () => {
+        if (globalEditor != null) {
+            // Proc(volume, cpm)
+            globalEditor.evaluate()
+        }
+    };
+
+    useEffect(() => {
+        if (state === "play") {
+            onPlay()
+        }
+        console.log(`Volume changed to ${volume}`);
+    }, [volume]);
 
     useEffect(() => {
 
@@ -50,7 +82,7 @@ function StrudelEditor() {
                 drawTime,
                 onDraw: (haps, time) => drawPianoroll({ haps, time, ctx: drawContext, drawTime, fold: 0 }),
                 prebake: async () => {
-                    initAudioOnFirstClick(); // needed to make the browser happy (don't await this here..)
+                    initAudioOnFirstClick();
                     const loadModules = evalScope(
                         import('@strudel/core'),
                         import('@strudel/draw'),
@@ -65,35 +97,11 @@ function StrudelEditor() {
 
             document.getElementById('proc').value = tune
             // SetupButtons()
-            Proc(volume, cpm)
+            let outputText = Preprocess({ inputText: songText, volume: volume });
+            globalEditor.setCode(outputText);
         }
 
     }, []);
-
-    // useEffect(() => {
-    //     globalEditor.setCode(songText)
-
-    // }, [songText])
-
-    const onPlay = () => {
-        if (globalEditor != null) {
-            globalEditor.evaluate();
-        }
-    };
-    const onStop = () => {
-        if (globalEditor != null) {
-            globalEditor.stop();
-        }
-    };
-    const onProc = () => Proc(volume, cpm);
-    const onProcAndPlay = () => {
-        if (globalEditor != null) {
-            Proc(volume, cpm)
-            globalEditor.evaluate()
-        }
-    };
-
-    console.log("ready");
 
     return (
         <>
@@ -102,7 +110,7 @@ function StrudelEditor() {
 
                     <div className="container-fluid">
                         <div className="row">
-                            <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
+                            <div className="col-md-8" style={{ maxHeight: '49 vh', overflowY: 'auto' }}>
                                 <PreprocessTextarea defaultValue={songText}
                                     onChange={(e) => setSongText(e.target.value)}
                                 />
@@ -113,6 +121,9 @@ function StrudelEditor() {
                                 onStop={onStop}
                                 onProc={onProc}
                                 onProcAndPlay={onProcAndPlay}
+                                state={state}
+                                setState={setState}
+                                onVolumeChange={(e) => setVolume(e.target.value)}
                             />
                         </div>
                         <div className="row">
@@ -123,8 +134,6 @@ function StrudelEditor() {
                             <MIDIControl
                                 volume={volume}
                                 setVolume={setVolume}
-                                cpm={cpm}
-                                setCpm={setCpm}
                             />
                         </div>
                     </div>

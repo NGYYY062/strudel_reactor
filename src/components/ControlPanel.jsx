@@ -3,7 +3,7 @@ import { webaudioOutput } from '@strudel/webaudio';
 import { globalEditor } from './StrudelEditor';
 import { DownloadTune, SaveTune } from '../utils/ProcessUtlis';
 
-function ControlPanel({ onPlay, onStop, onProc, onProcAndPlay }) {
+function ControlPanel({ onPlay, onStop, onProc, onProcAndPlay, state, setState }) {
 
 
     // useEffect(() => {
@@ -60,10 +60,26 @@ function ControlPanel({ onPlay, onStop, onProc, onProcAndPlay }) {
                     <button id="process_play" className="btn btn-outline-primary" onClick={onProcAndPlay}>Proc & Play</button>
                 </div>
                 <div className='row'>
-                    <button id="play" className="btn btn-outline-primary" onClick={onPlay}>Play</button>
+                    <button id="play" className="btn btn-outline-primary"
+                        onClick={() => {
+                            setState("play");
+                            onPlay();
+                            console.log(`Play button pressed.\nState: ${state}`);
+                        }}
+                    >
+                        Play
+                    </button>
                 </div>
                 <div className='row'>
-                    <button id="stop" className="btn btn-outline-danger" onClick={onStop}>Stop</button>
+                    <button id="stop" className="btn btn-outline-danger"
+                        onClick={() => {
+                            setState("stop");
+                            onStop();
+                            console.log(`Stop button pressed.\n State: ${state}`);
+                        }}
+                    >
+                        Stop
+                    </button>
                 </div>
                 <div className='row'>
                     <button id="save" className='btn btn-outline-warning' >Save</button>

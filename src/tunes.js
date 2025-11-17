@@ -1,4 +1,4 @@
-export const tune = `setcpm(<cpm_val>)
+export const tune = `setcpm(35)
 // setcps(140/60/4)
 
 samples('github:algorave-dave/samples')
@@ -40,7 +40,7 @@ const arpeggiator2 = [
 const pattern = 0
 const bass = 0
 
-<p1_Radio>bassline:
+bassline:
 note(pick(basslines, bass))
 .sound("supersaw")
 .postgain(2)
@@ -95,7 +95,7 @@ stack(
   .rarely(jux(rev)),
 )
 //Remixed and reproduced from Algorave Dave's code found here: https://www.youtube.com/watch?v=ZCcpWzhekEY
-all(x => x.gain(<volume_val>))
+// all(x => x.gain(<volume_val>))
 // all(x => x.log())
 
 // @version 1.2`;

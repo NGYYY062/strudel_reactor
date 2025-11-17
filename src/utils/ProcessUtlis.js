@@ -1,6 +1,39 @@
 import { globalEditor } from '../components/StrudelEditor';
 // import fs from 'fs';
 
+// preprocess logic
+export function Preprocess({ inputText, volume }) {
+    let outputText = inputText;
+
+    let regex = /[a-zA-Z0-9_]+:\s*\n[\s\S]+?\r?\n(?=[a-zA-Z0-9_]*[:\/])/gm;
+
+    let m;
+
+    let matches = [];
+
+    while ((m = regex.exec(outputText)) !== null) {
+        if (m.index === regex.lastIndex) {
+            regex.lastIndex++;
+        }
+
+        m.forEach((match, groupIndex) => {
+            console.log(`Found match, group ${groupIndex}: ${match}`);
+            matches.push(match);
+        });
+    }
+
+    console.log(matches);
+
+    let matches2 = matches.map(match => match.replaceAll(/(?<!post)gain\(([\d.]+)\)/g, (match, captureGroup) => `gain(${captureGroup}*${volume})`));
+
+    let matches3 = matches.reduce((text, original, i) => text.replaceAll(original, matches2[i]), outputText);
+
+    console.log(matches3);
+
+    return matches3;
+}
+
+// TODO: Get rid of Proc - unused
 export function Proc(volumeNum, cpm) {
 
     let proc_text = document.getElementById('proc').value
@@ -8,10 +41,10 @@ export function Proc(volumeNum, cpm) {
     proc_text_replaced = proc_text_replaced.replaceAll('<volume_val>', volumeNum);
     proc_text_replaced = proc_text_replaced.replaceAll('<cpm_val>', cpm);
     globalEditor.setCode(proc_text_replaced)
+
 }
 
-
-
+// TODO: Get rid of ProcessText - unused
 export function ProcessText(match, ...args) {
 
     let replace = ""
@@ -22,11 +55,12 @@ export function ProcessText(match, ...args) {
     return replace
 }
 
+// TODO: Modify? 
 export function ProcAndPlay(volumeNum, cpm) {
     if (globalEditor != null && globalEditor.repl.state.started === true) {
         console.log(globalEditor)
         Proc(volumeNum, cpm)
-        globalEditor.evaluate();
+        // globalEditor.evaluate();
     }
 }
 
@@ -59,6 +93,7 @@ export function ReadTuneFromFile() {
 //     }
 // }
 
+// TODO: Modify and improve
 export function DownloadTune() {
     let proc_text = document.getElementById('proc').value;
     let blob = new Blob([proc_text], { type: "text/plain" });

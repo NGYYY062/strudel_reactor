@@ -8,13 +8,37 @@
   font-display: swap;
 }
 
+
 body {
   margin: 0;
+  max-width: 99%;
   font-family: 'MomoTrustDisplay', sans-serif !important;
-  /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-image: linear-gradient(to bottom, #ffba00, #e52e71);
+  background-attachment: fixed;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(229, 46, 113, 0.8) transparent;
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e52e71;
+  border-radius: 4px;
+}
+
+
+/* .container,
+.container-fluid,
+.row,
+[class*="col-"] {
+  background-color: transparent !important;
+} */
 
 textarea {
   font-family: 'Courier New', Courier, monospace !important;

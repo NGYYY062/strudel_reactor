@@ -14,5 +14,6 @@
     - [ ] Instrument Tuning Control
     - [ ] JSON Setting
     - [ ] Global Volume Slider
+    - [ ] Tunes file upload/download
 - [ ] Error handeling
 
