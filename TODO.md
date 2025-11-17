@@ -13,7 +13,8 @@
     - [ ] DJ Mode
     - [ ] Instrument Tuning Control
     - [ ] JSON Setting
-    - [ ] Global Volume Slider
+    - [x] Global Volume Slider
     - [ ] Tunes file upload/download
+    - [ ] D3 Graph
 - [ ] Error handeling
 
