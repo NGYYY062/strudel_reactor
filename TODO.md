@@ -10,9 +10,7 @@
     - [x] Add Button Icons
     - [ ] Adjust layout
 - [ ] Add new features
-    - [ ] MIDI Pad Controller
-    - [ ] DJ Mode
-    - [ ] Instrument Tuning Control
+    - [x] Instrument Tuning Control
     - [ ] JSON Setting
     - [x] Global Volume Slider
     - [x] Tunes file upload/download

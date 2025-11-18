@@ -183,6 +183,8 @@ function StrudelEditor() {
                             <MIDIControl
                                 volume={volume}
                                 setVolume={setVolume}
+                                tagDict={tagDict}
+                                updateTagDict={updateTagDict}
                             />
                         </div>
                     </div>
