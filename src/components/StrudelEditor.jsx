@@ -10,6 +10,7 @@ import { tune } from '../tunes';
 import console_monkey_patch, { getD3Data } from '../console-monkey-patch';
 
 import { Proc, Preprocess } from "../utils/ProcessUtlis";
+import { GetAllTags, UpdateCurrentTags } from "../utils/StrudelSetup";
 import ControlPanel from "./ControlPanel";
 import MIDIControl from "./MIDIControl";
 import PreprocessTextarea from "./PreprocessTextarea";
@@ -29,10 +30,29 @@ function StrudelEditor() {
     // const [cpm, setCpm] = useState(35);
     const [songText, setSongText] = useState(tune);
     const [state, setState] = useState("stop");
+    const [tagDict, setTagDict] = useState({});
+
+    // Function to update Tag Dictionary value by key
+    const updateTagDict = (key, value) => {
+        setTagDict(prevTagDict => ({
+            ...prevTagDict,
+            [key]: value,
+        }));
+    };
+
+    // Function to remove an entry from Tag Dictionary
+    const removeTagDict = (key) => {
+        setTagDict(prevTagDict => {
+            const newDict = { ...prevTagDict };
+            delete newDict[key];
+            return newDict;
+        });
+    }
+
 
     // Play button logic
     const onPlay = () => {
-        let outputText = Preprocess({ inputText: songText, volume: volume });
+        let outputText = Preprocess({ inputText: songText, volume: volume, tagDict: tagDict });
         globalEditor.setCode(outputText);
         globalEditor.evaluate();
     };
@@ -46,8 +66,12 @@ function StrudelEditor() {
 
     // Preprocess button logic
     const onProc = () => {
-        let outputText = Preprocess({ inputText: songText, volume: volume });
+        const tempDict = UpdateCurrentTags({ inputText: songText, tagDict: tagDict });
+        setTagDict(tempDict);
+        let outputText = Preprocess({ inputText: songText, volume: volume, tagDict: tempDict });
         globalEditor.setCode(outputText);
+        console.log("From onProc:")
+        console.log(tempDict);
     };
 
     // TODO: Modify
@@ -93,10 +117,23 @@ function StrudelEditor() {
             });
 
 
+            const tags = GetAllTags({ inputText: songText });
+            let tempTagDict = {};
+            tags.forEach(tag => {
+                // console.log(typeof (tag));
+                tempTagDict[tag] = 0;
+                // set default to 0
+            });
+            tempTagDict["<wwww>"] = 35; //TODO: TESTING PURPOSE REMOVE WHEN FINISH
+            setTagDict(tempTagDict);
+            console.log("logging tag dict");
+            console.log(tempTagDict);
+
             document.getElementById('proc').value = tune
             // SetupButtons()
-            let outputText = Preprocess({ inputText: songText, volume: volume });
+            let outputText = Preprocess({ inputText: songText, volume: volume, tagDict: tempTagDict });
             globalEditor.setCode(outputText);
+
         }
 
     }, []);
@@ -108,10 +145,10 @@ function StrudelEditor() {
         console.log(`Volume changed to ${volume}`);
     }, [volume]);
 
-    useEffect(() => {
-        document.getElementById('proc').value = songText;
-        onProc();
-    }, [songText])
+    // useEffect(() => {
+    //     document.getElementById('proc').value = songText;
+    //     onProc();
+    // }, [songText])
 
     return (
         <>
@@ -124,6 +161,7 @@ function StrudelEditor() {
                                 <PreprocessTextarea defaultValue={songText}
                                     onChange={(e) => setSongText(e.target.value)}
                                 />
+                                {/* update sontText on Change */}
                             </div>
 
                             <ControlPanel

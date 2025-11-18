@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { webaudioOutput } from '@strudel/webaudio';
 import { globalEditor } from './StrudelEditor';
-import { DownloadTune, convertToPlain } from '../utils/ProcessUtlis';
+import { DownloadTune, ConvertToPlain } from '../utils/ProcessUtlis';
 
 import PlayBtnImg from '../assets/images/play-button.png';
 import PreprocessBtnImg from '../assets/images/replay.png';
@@ -32,7 +32,7 @@ function ControlPanel({ onPlay, onStop, onProc, onProcAndPlay, state, setState, 
 
 
             if (file.name.endsWith('.rtf')) {
-                code = convertToPlain(code);
+                code = ConvertToPlain(code);
             }
 
             setSongText(code);

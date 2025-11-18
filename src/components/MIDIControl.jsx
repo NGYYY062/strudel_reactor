@@ -9,6 +9,8 @@ function MIDIControl({ volume, setVolume, onVolumeChange }) {
         setTempVolume(volume);
     }, [volume]);
 
+
+
     return (
         <>
             < div className="col-md-4" >

@@ -1,4 +1,4 @@
-export const tune = `setcpm(35)
+export const tune = `setcpm(<wwww>)
 // setcps(140/60/4)
 
 samples('github:algorave-dave/samples')

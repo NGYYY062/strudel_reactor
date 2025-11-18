@@ -1,5 +1,5 @@
 ## TODO
-- [ ] Refactor 
+- [x] Refactor 
     - [x] Strudel Editor
     - [x] Process Utlis
     - [x] Control Panel
@@ -7,7 +7,8 @@
     - [x] MIDIPad
     - [ ]
 - [ ] Update user interface
-    - [ ] 
+    - [x] Add Button Icons
+    - [ ] Adjust layout
 - [ ] Add new features
     - [ ] MIDI Pad Controller
     - [ ] DJ Mode
