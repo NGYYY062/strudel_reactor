@@ -36,6 +36,7 @@ function ControlPanel({ onPlay, onStop, onProc, onProcAndPlay, state, setState, 
             }
 
             setSongText(code);
+            document.getElementById('proc').value = code
 
         }
 
@@ -48,14 +49,6 @@ function ControlPanel({ onPlay, onStop, onProc, onProcAndPlay, state, setState, 
     return (
         <>
             <div className="col-md-4 flex">
-                {/* <div className="row">
-                    <div className="dropdown">
-                        <button className="btn btn-secondary dropdown-toggle" type="button" id="tunesMenu" data-bs-toggle="dropdown" aria-expanded="false">Select Tunes</button>
-                        <ul className="dropdown-menu" aria-labelledby="tunesMenu" id="tunesDropdown">
-                            <li><a className="dropdown-item" href="#">Song1</a></li>
-                        </ul>
-                    </div>
-                </div> */}
                 <div className='row flex'>
                     <div className='col-md-4 d-flex justify-content-center'>
 

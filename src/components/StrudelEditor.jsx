@@ -14,12 +14,15 @@ import { GetAllTags, UpdateCurrentTags } from "../utils/StrudelSetup";
 import ControlPanel from "./ControlPanel";
 import MIDIControl from "./MIDIControl";
 import PreprocessTextarea from "./PreprocessTextarea";
+import D3NoteVisual from "./D3NoteVisualizer";
 
 export let globalEditor = null;
 export let masterAudioGain;
 
 const handleD3Data = (event) => {
-    console.log(event.detail);
+    const latestEvent = event.detail.at(-1);
+    console.log(latestEvent);
+
 };
 
 function StrudelEditor() {
@@ -124,7 +127,6 @@ function StrudelEditor() {
                 tempTagDict[tag] = 0;
                 // set default to 0
             });
-            tempTagDict["<wwww>"] = 35; //TODO: TESTING PURPOSE REMOVE WHEN FINISH
             setTagDict(tempTagDict);
             console.log("logging tag dict");
             console.log(tempTagDict);
@@ -144,11 +146,6 @@ function StrudelEditor() {
         }
         console.log(`Volume changed to ${volume}`);
     }, [volume]);
-
-    // useEffect(() => {
-    //     document.getElementById('proc').value = songText;
-    //     onProc();
-    // }, [songText])
 
     return (
         <>
@@ -189,6 +186,7 @@ function StrudelEditor() {
                         </div>
                     </div>
                     <canvas id="roll"></canvas>
+                    <D3NoteVisual />
                 </main >
             </div >
         </>

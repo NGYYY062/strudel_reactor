@@ -136,6 +136,7 @@ function MIDIControl({ volume, setVolume, tagDict, updateTagDict }) {
                                     />
                                 </div>
                                 <div className='flex-fill'>
+                                    <label htmlFor={`max-${tag}`} className='form-label small'>Max</label>
                                     <input type='number' className='form-control form-control-sm' id={`max-${tag}`} value={range.max}
                                         onChange={(e) => updateRange(tag, 'max', e.target.value)}
                                     />
@@ -155,18 +156,6 @@ function MIDIControl({ volume, setVolume, tagDict, updateTagDict }) {
                     )
                 })
                 }
-                {/* <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="" id="s1" />
-                    <label className="form-check-label" htmlFor="s1">s1</label>
-                </div>
-                <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="" id="s2" />
-                    <label className="form-check-label" htmlFor="s2">s2</label>
-                </div>
-                <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="" id="s3" />
-                    <label className="form-check-label" htmlFor="s3">s3</label>
-                </div> */}
             </div>
         </>
     )

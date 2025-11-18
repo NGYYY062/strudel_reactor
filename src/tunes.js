@@ -1,4 +1,4 @@
-export const tune = `setcpm(<wwww>)
+export const tune = `setcpm(35)
 // setcps(140/60/4)
 
 samples('github:algorave-dave/samples')
@@ -95,7 +95,7 @@ stack(
   .rarely(jux(rev)),
 )
 //Remixed and reproduced from Algorave Dave's code found here: https://www.youtube.com/watch?v=ZCcpWzhekEY
-// all(x => x.gain(<volume_val>))
+// all(x => x.gain(0))
 // all(x => x.log())
 
 // @version 1.2`;
