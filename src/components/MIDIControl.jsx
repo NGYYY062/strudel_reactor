@@ -36,23 +36,72 @@ function MIDIControl({ volume, setVolume, tagDict, updateTagDict }) {
         }));
     };
 
+    const exportSettingsAsJson = () => {
+        const settings = {
+            tagDict: tagDict,
+            tagRanges: tagRanges,
+            volume: volume
+        };
+
+        const dataString = JSON.stringify(settings, null, 2);
+        const blob = new Blob([dataString], { type: 'appliction/json' });
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'strudel-reactor-settings.json';
+        link.click();
+
+        URL.revokeObjectURL(url);
+    }
+
+    const importSettingsAsJson = (ev) => {
+        const file = ev.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const settings = JSON.parse(e.target.result);
+
+                if (settings.tagDict) {
+                    Object.keys(settings.tagDict).forEach(tag => {
+                        updateTagDict(tag, settings.tagDict[tag]);
+                    });
+                }
+
+                if (settings.tagRanges) {
+                    setTagRanges(settings.tagRanges);
+                }
+
+                if (settings.volume !== undefined) {
+                    setVolume(settings.volume);
+                }
+
+                alert("Settings import success");
+            } catch (e) {
+                alert("Import settings error: " + e.message);
+            }
+        };
+        reader.readAsText(file);
+
+        ev.target.value = "";
+    }
+
     return (
         <>
             < div className="col-md-4" >
-                {/* <div className="form-check">
-                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" onChange={() => ProcAndPlay(volume)} defaultChecked />
-                    <label className="form-check-label" htmlFor="flexRadioDefault1">
-                        p1: ON
-                    </label>
+                <div className='row mb-3'>
+                    <div className='d-flex gap-2'>
+                        <button className='btn btn-primary btn-sm flex-fill' onClick={exportSettingsAsJson}>
+                            Export Tuning
+                        </button>
+                        <label className='btn btn-danger btn-sm flex-fill' htmlFor='import-settings'>
+                            Import Tuning
+                        </label>
+                        <input type="file" id='import-settings' accept='.json' style={{ display: 'none' }} onChange={importSettingsAsJson} />
+                    </div>
                 </div>
-                <div className="form-check">
-                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" onChange={() => ProcAndPlay(volume)} />
-                    <label className="form-check-label" htmlFor="flexRadioDefault2">
-                        p1: HUSH
-                    </label>
-                </div> */}
-
-
                 <div className="row">
                     <label htmlFor="volumeRange">Volume: {tempVolume}</label>
                     <input type="range" className="form-range" id="volumeRange" min="0" max="1" step="0.01" value={tempVolume}
